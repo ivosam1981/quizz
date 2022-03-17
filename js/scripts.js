@@ -157,11 +157,38 @@ function nextQuestion() {
     setTimeout(function() {
         if (actualQuestion >= questions.length) {
             //apresenta msg de sucesso
+            showSuccessMessage();
+            return;
         }
 
         createQuestion(actualQuestion);
     }, 1500);
 
+}
+
+//exibe a tela final
+
+function showSuccessMessage() {
+    hideOrShowQuizz();
+
+    //clacula score
+    const score = ((points / questions.length) * 100).toFixed(2);
+
+    const displayScore = document.querySelector("#display-score span");
+
+    displayScore.textContent = score.toString();
+
+    const correctAnswers = document.querySelector("#correct-answers");
+    correctAnswers.textContent = points;
+
+    const totalQuestions = document.querySelector("#questions-qty");
+    totalQuestions.textContent = questions.length;
+}
+
+
+function hideOrShowQuizz() {
+    quizzContainer.classList.toggle("hide");
+    scoreContainer.classList.toggle("hide");
 }
 
 //inicializaçõa do quizz
