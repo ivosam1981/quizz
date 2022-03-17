@@ -92,6 +92,76 @@ function createQuestion(i) {
     questionText.textContent = questions[i].question;
     questionNumber.textContent = i + 1;
 
+
+    //Insere as alternativas
+    questions[i].answers.forEach(function(answer, i) {
+        //cria template do botao quizz
+        const answerTemplate = document.querySelector(".answer-template").cloneNode(true);
+
+        const letterBtn = answerTemplate.querySelector(".btn-letter");
+        const answerText = answerTemplate.querySelector(".question-answer");
+
+        letterBtn.textContent = letters[i];
+        answerText.textContent = answer['answer'];
+
+        answerTemplate.setAttribute("correct-answer", answer["correct"]);
+
+        //Remover hide e template class
+        answerTemplate.classList.remove("hide");
+        answerTemplate.classList.remove("answer-template");
+
+
+        ///inserir alternativa na tela
+
+        answersBox.appendChild(answerTemplate);
+
+        //inserir evento de click no botao
+
+        answerTemplate.addEventListener("click", function() {
+            checkAsnwer(this);
+        });
+
+    });
+
+    //incrementar o numero da questao
+    actualQuestion++;
+
+}
+
+//verificando resposta do usuario
+function checkAsnwer(btn) {
+    const buttons = answersBox.querySelectorAll("button");
+
+    buttons.forEach(function(button) {
+        if (button.getAttribute("correct-answer") == "true") {
+
+            button.classList.add("correct-answer");
+
+            if (btn == button) {
+
+                points++;
+            }
+
+        } else {
+            button.classList.add("wrong-answer");
+        }
+    })
+
+    nextQuestion();
+
+}
+
+function nextQuestion() {
+
+    //timer para usuario ver as respostas
+    setTimeout(function() {
+        if (actualQuestion >= questions.length) {
+            //apresenta msg de sucesso
+        }
+
+        createQuestion(actualQuestion);
+    }, 1500);
+
 }
 
 //inicializaçõa do quizz
